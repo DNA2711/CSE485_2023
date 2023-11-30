@@ -1,6 +1,7 @@
 <?php
 function getCon() {
     $db = 'BTTH01_CSE485';
+    $host= 'localhost';
     $user = 'root';
     $pass = '1';
     $charset = 'utf8mb4';
