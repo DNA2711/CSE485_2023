@@ -1,5 +1,5 @@
 <?php
-include ('connection.php')
+include ('connection.php');
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['txtAuthorName'])) {
     $conn = getCon();
 
@@ -11,9 +11,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['txtAuthorName'])) {
     $stmt = $conn->prepare($sql);
 
     if ($stmt->execute()) {
-        echo "Thêm dữ liệu thành công.;
+        echo "Thêm dữ liệu thành công.";
     } else {
-        echo "Thêm dữ liệu thất bại.;
+        echo "Thêm dữ liệu thất bại.";
     }
 }
 ?>
