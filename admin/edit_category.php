@@ -46,23 +46,47 @@
         <!-- <h3 class="text-center text-uppercase mb-3 text-primary">CẢM NHẬN VỀ BÀI HÁT</h3> -->
         <div class="row">
             <div class="col-sm">
-                <h3 class="text-center text-uppercase fw-bold">Sửa thông tin thể loại</h3>
-                <form action="process_add_category.php" method="post">
-                <div class="input-group mt-3 mb-3">
-                        <span class="input-group-text" id="lblCatId">Mã thể loại</span>
-                        <input type="text" class="form-control" name="txtCatId" readonly value="1">
-                    </div>
+            <?php
+            include('connection.php');
 
-                    <div class="input-group mt-3 mb-3">
-                        <span class="input-group-text" id="lblCatName">Tên thể loại</span>
-                        <input type="text" class="form-control" name="txtCatName" value = "Nhạc trữ tình">
-                    </div>
+            if (isset($_GET['id'])) {
+                $id = $_GET['id'];
 
-                    <div class="form-group  float-end ">
-                        <input type="submit" value="Lưu lại" class="btn btn-success">
-                        <a href="category.php" class="btn btn-warning ">Quay lại</a>
-                    </div>
-                </form>
+                $conn = getCon();
+
+                // Truy vấn cơ sở dữ liệu để lấy thông tin tác giả
+                $sql = "SELECT * FROM theloai WHERE ma_tloai = $id";
+                $result = $conn->query($sql);
+
+                if ($result->num_rows > 0) {
+                    $row = $result->fetch_assoc();
+                    $ma_tgia = $row['ma_tloai'];
+                    $ten_tgia = $row['ten_tloai'];
+                    // Các dòng mã HTML bên dưới sẽ hiển thị thông tin trong form
+                    ?>
+                    <h3 class="text-center text-uppercase fw-bold">Sửa thông tin thể loại</h3>
+                    <form action="process_edit_author.php" method="post">
+                        <div class="input-group mt-3 mb-3">
+                            <span class="input-group-text" id="lblCatName">Tên thể loại</span>
+                            <input type="text" class="form-control" name="txtCatName" value="<?php echo $ten_tloai; ?>">
+                        </div>
+
+                        <div class="form-group  float-end ">
+                            <input type="submit" value="Lưu lại" class="btn btn-success">
+                            <a href="category.php" class="btn btn-warning ">Quay lại</a>
+                        </div>
+                    </form>
+                    <?php
+                } else {
+                    echo "Không có thể loại với ID này.";
+                }
+
+                // Đóng kết nối
+                $conn->close();
+            } else {
+                echo "Không có ID được cung cấp để sửa thể loại.";
+            }
+            ?>
             </div>
         </div>
     </main>

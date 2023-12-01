@@ -47,39 +47,48 @@
         <div class="row">
             <div class="col-sm">
                 <a href="add_category.php" class="btn btn-success">Thêm mới</a>
-                <table class="table">
+                <?php
+                include ('connection.php');
+
+                $conn = getCon();
+                $sql = "SELECT * FROM theloai";
+                $stmt = $conn->prepare($sql);
+                $stmt->execute();
+                $result = $stmt->fetchAll();
+                if (count($result) > 0) {
+                    echo "<table class='table'>
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Tên thể loại</th>
+                            <th scope='col'>STT</th>
+                            <th scope='col'>Tên thể loại</th>
                             <th>Sửa</th>
                             <th>Xóa</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Nhạc trữ tình</td>
-                            <td>
-                                <a href="edit_category.php?id=1"><i class="fa-solid fa-pen-to-square"></i></a>
-                            </td>
-                            <td>
-                                <a href=""><i class="fa-solid fa-trash"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Nhạc cách mạng</td>
-                            <td>
-                                <a href="edit_category.php?id=2"><i class="fa-solid fa-pen-to-square"></i></a>
-                            </td>
-                            <td>
-                                <a href=""><i class="fa-solid fa-trash"></i></a>
-                            </td>
-                        </tr>
-                       
-                    </tbody>
-                </table>
+                    <tbody>";
+
+                    $stt = 1;
+                    foreach ($result as $row) {
+                        echo "<tr>
+                        <th scope='row'>$stt</th>
+                        <td>{$row['ten_tloai']}</td>
+                        <td>
+                            <a href='edit_author.php?id={$row['ma_tloai']}'><i class='fa-solid fa-pen-to-square'></i></a>
+                        </td>
+                        <td>
+                            <a href='#'><i class='fa-solid fa-trash'></i></a>
+                        </td>
+                    </tr>";
+                        $stt++;
+                    }
+
+                    echo "</tbody></table>";
+                } else {
+                    echo "Không có dữ liệu";
+                }
+                // Đóng kết nối
+                $conn->close();
+                ?>
             </div>
         </div>
     </main>
